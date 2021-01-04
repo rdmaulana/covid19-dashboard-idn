@@ -199,7 +199,6 @@
                     <tr>
                         <th>Date</th>
                         <th>New Cases</th>
-                        <th>Recovered</th>
                         <th>Deaths</th>
                         <th>Total Tests</th>
                         <th>Total Cases</th>
@@ -211,7 +210,6 @@
                             {{data.parameters.day}}
                         </td>
                         <td class="text-muted">{{data.response.0.cases.new|intcomma}}</td>
-                        <td class="text-muted">3,654</td>
                         <td class="text-muted">{{data.response.0.deaths.new|intcomma}}</td>
                         <td class="text-muted">
                             {{data.response.0.tests.total|intcomma}}
