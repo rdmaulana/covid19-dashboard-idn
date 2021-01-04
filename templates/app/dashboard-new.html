@@ -1,0 +1,622 @@
+{% extends "base/index.html" %}
+{% load humanize %}
+
+{% block content %}
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="subheader">Total Cases</div>
+                <div class="ms-auto lh-1">
+                <div class="dropdown">
+                    <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item active" href="#">Last 7 days</a>
+                    <a class="dropdown-item" href="#">Last 30 days</a>
+                    <a class="dropdown-item" href="#">Last 3 months</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="h1 mb-3">{{total|intcomma}}</div>
+            <div class="d-flex mb-2">
+                <div>New cases</div>
+                <div class="ms-auto">
+                <span class="text-green d-inline-flex align-items-center lh-1">
+                    {{new_cases|intcomma}} <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
+                </span>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="subheader">Active cases</div>
+                <div class="ms-auto lh-1">
+                <div class="dropdown">
+                    <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item active" href="#">Last 7 days</a>
+                    <a class="dropdown-item" href="#">Last 30 days</a>
+                    <a class="dropdown-item" href="#">Last 3 months</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+                <div class="h1 mb-0 me-2">{{active_cases|intcomma}}</div>
+                <div class="me-auto">
+                <span class="text-green d-inline-flex align-items-center lh-1">
+                    {{new_cases|intcomma}} <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
+                </span>
+                </div>
+            </div>
+            </div>
+            <div id="chart-revenue-bg" class="chart-sm"></div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="subheader">Recovered</div>
+                <div class="ms-auto lh-1">
+                <div class="dropdown">
+                    <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item active" href="#">Last 7 days</a>
+                    <a class="dropdown-item" href="#">Last 30 days</a>
+                    <a class="dropdown-item" href="#">Last 3 months</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+                <div class="h1 mb-3 me-2">{{recovered_cases|intcomma}}</div>
+            </div>
+            <div id="chart-new-clients" class="chart-sm"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="subheader">Deaths</div>
+                <div class="ms-auto lh-1">
+                <div class="dropdown">
+                    <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item active" href="#">Last 7 days</a>
+                    <a class="dropdown-item" href="#">Last 30 days</a>
+                    <a class="dropdown-item" href="#">Last 3 months</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+                <div class="h1 mb-3 me-2">{{deaths|intcomma}}</div>
+                <div class="me-auto">
+                <span class="text-green d-inline-flex align-items-center lh-1">
+                    {{new_deaths|intcomma}} <svg xmlns="http://www.w3.org/2000/svg" class="icon ms-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
+                </span>
+                </div>
+            </div>
+            <div id="chart-active-users" class="chart-sm"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+        <div class="card-body">
+            <div class="d-flex">
+            <h3 class="card-title">Case Statistics</h3>
+            <div class="ms-auto">
+                <div class="dropdown">
+                <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item active" href="#">Last 7 days</a>
+                    <a class="dropdown-item" href="#">Last 30 days</a>
+                    <a class="dropdown-item" href="#">Last 3 months</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="chart-cases"></div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-xl-4">
+        <div class="card">
+        <div class="card-body">
+            <div class="d-flex">
+                <h3 class="card-title">Breakdown</h3>
+                <div class="ms-auto">
+                    <div class="dropdown">
+                    <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item active" href="#">Last 7 days</a>
+                        <a class="dropdown-item" href="#">Last 30 days</a>
+                        <a class="dropdown-item" href="#">Last 3 months</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chart-total-sales"></div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body p-2 text-center">
+            <br>
+            <div class="h1 m-0">{{total_populations|intcomma}}</div>
+            <div class="text-muted mb-3">Total Populations</div>
+        </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body p-2 text-center">
+            <br>
+            <div class="h1 m-0">{{total_tests|intcomma}}</div>
+            <div class="text-muted mb-3">Total Tests</div>
+        </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body p-2 text-center">
+            <br>
+            <div class="h1 m-0">{{new_cases|intcomma}}</div>
+            <div class="text-muted mb-3">New Cases</div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">1M Population Statistics</h3>
+                <div id="chart-1m-populations" class="chart-lg"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Breakdown Case Tables</h3>
+        </div>
+        <div class="card-table table-responsive">
+            <table class="table table-vcenter">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>New Cases</th>
+                        <th>Recovered</th>
+                        <th>Deaths</th>
+                        <th>Total Tests</th>
+                        <th>Total Cases</th>
+                    </tr>
+                </thead>
+                {% for data in response %}
+                    <tr>
+                        <td>
+                            {{data.parameters.day}}
+                        </td>
+                        <td class="text-muted">{{data.response.0.cases.new|intcomma}}</td>
+                        <td class="text-muted">3,654</td>
+                        <td class="text-muted">{{data.response.0.deaths.new|intcomma}}</td>
+                        <td class="text-muted">
+                            {{data.response.0.tests.total|intcomma}}
+                        </td>
+                        <td class="text-muted">
+                            {{data.response.0.cases.total|intcomma}}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_script %}
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-total-sales'), {
+      		chart: {
+      			type: "donut",
+      			fontFamily: 'inherit',
+      			height: 240,
+      			sparkline: {
+      				enabled: true
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      		},
+      		fill: {
+      			opacity: 1,
+      		},
+      		series: [{{active_cases}}, {{recovered_cases}}, {{deaths}}],
+      		labels: ["Active", "Recovered", "Death"],
+      		grid: {
+      			strokeDashArray: 4,
+      		},
+      		colors: ["#206bc4", "#bfe399", "#FF0000"],
+      		legend: {
+      			show: true,
+      			position: 'bottom',
+      		},
+      		tooltip: {
+      			fillSeriesColor: false
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-cases'), {
+      		chart: {
+      			type: "bar",
+      			fontFamily: 'inherit',
+      			height: 192,
+      			parentHeightOffset: 0,
+      			toolbar: {
+      				show: false,
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      		},
+      		fill: {
+      			opacity: 1,
+      		},
+      		stroke: {
+      			width: 2,
+      			lineCap: "round",
+      			curve: "smooth",
+      		},
+      		series: [{
+      			name: "New Cases",
+      			data: [{% for case in chart_new_case %}{{case.new_cases|default_if_none:0}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		},{
+      			name: "Death Cases",
+      			data: [{% for case in chart_death_cases %}{{case.new_deaths|default_if_none:0}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		}],
+      		grid: {
+      			padding: {
+      				top: -20,
+      				right: 0,
+      				left: -4,
+      				bottom: -4
+      			},
+      			strokeDashArray: 4,
+      			xaxis: {
+      				lines: {
+      					show: true
+      				}
+      			},
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [
+      			{% for date in chart_date_range %}'{{date}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+      		],
+      		colors: ["#3b5998", "#FF0000", "#ea4c89"],
+      		legend: {
+      			show: true,
+      			position: 'bottom',
+      			height: 32,
+      			offsetY: 8,
+      			markers: {
+      				width: 8,
+      				height: 8,
+      				radius: 100,
+      			},
+      			itemMargin: {
+      				horizontal: 8,
+      			},
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-revenue-bg'), {
+      		chart: {
+      			type: "area",
+      			fontFamily: 'inherit',
+      			height: 40.0,
+      			sparkline: {
+      				enabled: true
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      		},
+      		dataLabels: {
+      			enabled: false,
+      		},
+      		fill: {
+      			opacity: .16,
+      			type: 'solid'
+      		},
+      		stroke: {
+      			width: 2,
+      			lineCap: "round",
+      			curve: "smooth",
+      		},
+      		series: [{
+      			name: "New cases",
+      			data: [{% for case in chart_new_case %}{{case.new_cases|default_if_none:0}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		}],
+      		grid: {
+      			strokeDashArray: 4,
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			axisBorder: {
+      				show: false,
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [
+      			{% for date in chart_date_range %}'{{date}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+      		],
+      		colors: ["#206bc4"],
+      		legend: {
+      			show: false,
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-new-clients'), {
+      		chart: {
+      			type: "line",
+      			fontFamily: 'inherit',
+      			height: 40.0,
+      			sparkline: {
+      				enabled: true
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      		},
+      		fill: {
+      			opacity: 1,
+      		},
+      		stroke: {
+      			width: [2, 1],
+      			dashArray: [0, 3],
+      			lineCap: "round",
+      			curve: "smooth",
+      		},
+      		series: [{
+      			name: "Recovered",
+      			data: [{% for case in chart_recovered_cases %}{{case}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		}],
+      		grid: {
+      			strokeDashArray: 4,
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [
+      			{% for date in chart_date_range %}'{{date}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+      		],
+      		colors: ["#206bc4", "#a8aeb7"],
+      		legend: {
+      			show: false,
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+    
+    <script>
+      //death charts
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-active-users'), {
+      		chart: {
+      			type: "bar",
+      			fontFamily: 'inherit',
+      			height: 40.0,
+      			sparkline: {
+      				enabled: true
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      		},
+      		plotOptions: {
+      			bar: {
+      				columnWidth: '50%',
+      			}
+      		},
+      		dataLabels: {
+      			enabled: false,
+      		},
+      		fill: {
+      			opacity: 1,
+      		},
+      		series: [{
+      			name: "Deaths",
+      			data: [{% for case in chart_death_cases %}{{case.new_deaths|default_if_none:0}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		}],
+      		grid: {
+      			strokeDashArray: 4,
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			axisBorder: {
+      				show: false,
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [
+      			{% for date in chart_date_range %}'{{date}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+      		],
+      		colors: ["#206bc4"],
+      		legend: {
+      			show: false,
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-1m-populations'), {
+      		chart: {
+      			type: "bar",
+      			fontFamily: 'inherit',
+      			height: 240,
+      			parentHeightOffset: 0,
+      			toolbar: {
+      				show: false,
+      			},
+      			animations: {
+      				enabled: false
+      			},
+      			stacked: true,
+      		},
+      		plotOptions: {
+      			bar: {
+      				columnWidth: '50%',
+      			}
+      		},
+      		dataLabels: {
+      			enabled: false,
+      		},
+      		fill: {
+      			opacity: 1,
+      		},
+      		series: [{
+      			name: "Cases",
+      			data: [{% for case in chart_1m_cases %}{{case}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		},{
+      			name: "Deaths",
+      			data: [{% for case in chart_1m_deaths %}{{case}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		},{
+      			name: "Tests",
+      			data: [{% for case in chart_1m_tests %}{{case}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+      		}],
+      		grid: {
+      			padding: {
+      				top: -20,
+      				right: 0,
+      				left: -4,
+      				bottom: -4
+      			},
+      			strokeDashArray: 4,
+      			xaxis: {
+      				lines: {
+      					show: true
+      				}
+      			},
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			axisBorder: {
+      				show: false,
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [
+      			{% for date in chart_date_range %}'{{date}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+      		],
+      		colors: ["#206bc4", "#d63939", "#bfe399"],
+      		legend: {
+      			show: true,
+      			position: 'bottom',
+      			height: 32,
+      			offsetY: 8,
+      			markers: {
+      				width: 8,
+      				height: 8,
+      				radius: 100,
+      			},
+      			itemMargin: {
+      				horizontal: 8,
+      			},
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+{% endblock extra_script %}
