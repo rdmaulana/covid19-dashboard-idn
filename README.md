@@ -3,8 +3,6 @@
 [![Python Version](https://img.shields.io/badge/python-3.8.5-brightgreen.svg)](https://python.org)
 [![Django Version](https://img.shields.io/badge/django-3.1.4-brightgreen.svg)](https://djangoproject.com)
 
-This is an example project to illustrate an implementation of multiple user types. In this Django app, teachers can create quizzes and students can sign up and take quizzes related to their interests.
-
 ![Dashboard Screenshot](https://i.paste.pics/0fa4a085d24979c395696a98bd3a3d4a.png)
 
 Demo version [Indonesia Covid-19 Dashboard](https://dash-cov19.herokuapp.com).
